@@ -1,20 +1,33 @@
 require("dotenv").config();
 
-var axios = require("axios");
+const axios = require("axios");
 
-var moment = require("moment");
-// var spotifyKeys = require("keys.js");
+const moment = require("moment");
 
-// var spotify = new Spotify(keys.spotify);
+// var Spotify = require("node-spotify-api");
+
+// var spotifyKeys = require("./keys.js");
+
+// var spotify = new Spotify({
+//     id: spotifyKeys.id,
+//     secret: spotifyKeys.secret
+//   });
+
+const Spotify = require('node-spotify-api');
+const keys = require('./keys.js');
+const spotify = new Spotify(keys.spotify);
+
+//------------------------------------------
 
 let search = "";
-
 function makeSearch() {
     search = process.argv[3]
     for (let i = 4; i < process.argv.length; i++) {
         search = search + " " + process.argv[i];
     }
 }
+
+//------------------------------------------
 
 if (process.argv[2] === "concert-this") {
     //Bands in Town API
@@ -32,7 +45,7 @@ if (process.argv[2] === "concert-this") {
                 console.log("--------------------------");
                 console.log("Venue: " + response.data[i].venue.name);
                 console.log("City: " + response.data[i].venue.city);
-                console.log("Date: " + date); 
+                console.log("Date: " + date);
                 console.log("--------------------------");
             }
         })
@@ -53,26 +66,38 @@ if (process.argv[2] === "concert-this") {
             }
             console.log(error.config);
         });
+
+    //------------------------------------------
+
 } else if (process.argv[2] === "spotify-this-song") {
     //Node-Spotify-API
     //Takes Song Name
     //Gives Artist, Song Name, Preview Link on Spotify, Album
     makeSearch();
+    spotify.search({ type: 'track', query: search }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+    
+        console.log("Song Title: " + data.tracks.items[0].name); 
+        console.log("Album: " + data.tracks.items[0].album.name); 
+        console.log("Artist: " + data.tracks.items[0].artists[0].name);
+        console.log("Release Year: " + data.tracks.items[0].album.release_date);
+        console.log("Preview: " + data.tracks.items[0].external_urls.spotify);
+      });
+    //------------------------------------------
+
 } else if (process.argv[2] === "movie-this") {
     //OMDB API (trilogy)
     //Takes Movie Name
     //Gives Title, Year, IMDB Rating, RT Rating, Country, Language, Actors, Plot
     //Default "Mr. Nobody"
 
-
     makeSearch();
-
-
-    // Then run a request with axios to the OMDB API with the movie specified
-    axios.get("http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy").then(
-        function (response) {
+    axios.get("http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy")
+        .then(function (response) {
             console.log(
-`
+                `
 Title: ${response.data.Title}
 Year: ${response.data.Year}
 Rotten Tomatoes: ${response.data.Ratings[1].Value}
@@ -83,11 +108,15 @@ Actors: ${response.data.Actors}
 Plot: ${response.data.Plot}
 `
             );
-        }
-    );
+        });
+
+//------------------------------------------
 
 } else if (process.argv[2] === "do-what-it-says") {
     //Spotify-This-Song 
     //Use the text in the random.txt file though
     makeSearch();
+} else {
+    console.log("That is not a valid command. Have a nice day!")
 }
+//------------------------------------------
