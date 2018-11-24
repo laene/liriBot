@@ -18,9 +18,9 @@ if (process.argv[2] === "concert-this") {
     //Bands in Town API
     //Takes Artist Name
     //Gives Event Venue Name, Venue Location, Date
-    // makeSearch();
+    makeSearch();
     axios
-        .get("https://rest.bandsintown.com/artists/" + process.argv[3] + "/events?app_id=codingbootcamp")
+        .get("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp")
         .then(function (response) {
             // If the axios was successful...
             // Then log the body from the site!
