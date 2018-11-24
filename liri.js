@@ -1,6 +1,8 @@
 require("dotenv").config();
 
 var axios = require("axios");
+
+var moment = require("moment");
 // var spotifyKeys = require("keys.js");
 
 // var spotify = new Spotify(keys.spotify);
@@ -25,13 +27,14 @@ if (process.argv[2] === "concert-this") {
             // If the axios was successful...
             // Then log the body from the site!
             for (let i = 0; i < response.data.length; i++) {
+                var date = response.data[i].datetime;
+                date = moment().format("MM/DD/YYYY")
                 console.log("--------------------------");
-                console.log(response.data[i].venue.name);
-                console.log(response.data[i].venue.city);
-                console.log(response.data[i].datetime); 
+                console.log("Venue: " + response.data[i].venue.name);
+                console.log("City: " + response.data[i].venue.city);
+                console.log("Date: " + date); 
                 console.log("--------------------------");
             }
-
         })
         .catch(function (error) {
             if (error.response) {
@@ -70,14 +73,14 @@ if (process.argv[2] === "concert-this") {
         function (response) {
             console.log(
 `
-Title: ${response.data.Title},
-Year: ${response.data.Year},
-Rotten Tomatoes: ${response.data.Ratings[1].Value},
-IMDB Rating: ${response.data.imdbRating},
-Country: ${response.data.Country},
-Language: ${response.data.Language},
-Actors: ${response.data.Actors},
-Plot: ${response.data.Plot},
+Title: ${response.data.Title}
+Year: ${response.data.Year}
+Rotten Tomatoes: ${response.data.Ratings[1].Value}
+IMDB Rating: ${response.data.imdbRating}
+Country: ${response.data.Country}
+Language: ${response.data.Language}
+Actors: ${response.data.Actors}
+Plot: ${response.data.Plot}
 `
             );
         }
