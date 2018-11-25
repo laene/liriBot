@@ -20,7 +20,7 @@ LiriBot utilizes Node.JS and a collection of other packages to run its search fu
  First you need to navigate to the liriBot folder in the terminal.
  
  ![Start](/screenshots/step1.png)
-Format: ![Alt Text](url)
+
 
 ### Search for Concerts
 
