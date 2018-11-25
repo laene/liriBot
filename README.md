@@ -28,7 +28,7 @@ You can search for your favorite artist's upcoming shows by typing into the term
     node liri.js concert-this pentatonix
     
 ![Step 2](/screenshots/step2-concertthis.png)
-Format: ![Alt Text](url)
+
 
 ### Search for Song Information
 
@@ -36,7 +36,7 @@ You can search for more information about a song using the command "spotify-this
     node liri.js spotify-this-song thunder
     
 ![Step 3](/screenshots/step3-spotifythis.png)
-Format: ![Alt Text](url)
+
 
 ### Search for Movie Information
 
@@ -44,11 +44,11 @@ You can search for information about your favorite movies using the command "mov
     node liri.js movie-this 10 things i hate about you
     
 ![Step 4](/screenshots/step4-moviethis.png)
-Format: ![Alt Text](url)
+
 
 ### Use a txt File Instead
 
 You can also tell liriBot to do the commands listed in another file using the "do-what-it-says" command. Here's an example:
 
 ![Step 5](/screenshots/step5-thistext.png)
-Format: ![Alt Text](url)
+
