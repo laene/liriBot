@@ -6,15 +6,6 @@ const moment = require("moment");
 
 var fs = require("fs");
 
-// var Spotify = require("node-spotify-api");
-
-// var spotifyKeys = require("./keys.js");
-
-// var spotify = new Spotify({
-//     id: spotifyKeys.id,
-//     secret: spotifyKeys.secret
-//   });
-
 const Spotify = require('node-spotify-api');
 const keys = require('./keys.js');
 const spotify = new Spotify(keys.spotify);
@@ -25,6 +16,7 @@ let search = "";
 
 let userCommand = process.argv[2];
 
+//------------------------------------------
 
 function makeSearch() {
     search = process.argv[3]
@@ -39,8 +31,6 @@ function findConcerts() {
     axios
         .get("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp")
         .then(function (response) {
-            // If the axios was successful...
-            // Then log the body from the site!
             for (let i = 0; i < response.data.length; i++) {
                 var date = response.data[i].datetime;
                 date = moment().format("MM/DD/YYYY")
@@ -105,123 +95,48 @@ Plot: ${response.data.Plot}
 `
             );
         });
-
-
 }
 
 //------------------------------------------
 
-function liriBotTime() {
+function findText() {
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error);
+        }
+
+        var dataArr = data.split(",");
+
+        userCommand = dataArr[0];
+        search = dataArr[1];
+
+        findCommand();
+    });
+}
+//------------------------------------------
+
+function findCommand() {
     if (userCommand === "concert-this") {
-        //Bands in Town API
-        //Takes Artist Name
-        //Gives Event Venue Name, Venue Location, Date
-
-        makeSearch();
         findConcerts();
-
-        //------------------------------------------
-
     } else if (userCommand === "spotify-this-song") {
-        //Node-Spotify-API
-        //Takes Song Name
-        //Gives Artist, Song Name, Preview Link on Spotify, Album
-        makeSearch();
         findSong();
-
-        //------------------------------------------
-
     } else if (userCommand === "movie-this") {
-        //OMDB API (trilogy)
-        //Takes Movie Name
-        //Gives Title, Year, IMDB Rating, RT Rating, Country, Language, Actors, Plot
-        //Default "Mr. Nobody"
-
-        makeSearch();
         findMovie();
-
-        //------------------------------------------
-
-    } else if (userCommand === "do-what-it-says") {
-        //Spotify-This-Song 
-        //Use the text in the random.txt file though
-        fs.readFile("random.txt", "utf8", function (error, data) {
-            if (error) {
-                return console.log(error);
-            }
-
-            var dataArr = data.split(",");
-            console.log(dataArr);
-
-            userCommand = dataArr[0];
-            search = dataArr[1];
-            console.log(userCommand);
-            console.log(search);
-            
-            if (userCommand === "spotify-this-song") {
-                findSong();
-            }
-
-        });
-
     } else {
         console.log("That is not a valid command. Have a nice day!")
     }
 }
 
-//-----------------------------------------
+//------------------------------------------
+function liriBotTime() {
+    if (userCommand === "do-what-it-says") {
+        findText()
+    } else {
+        makeSearch();
+        findCommand();
+    };
+}
+
+//-------------------------------------------
 
 liriBotTime();
-
-// if (userCommand === "concert-this") {
-//     //Bands in Town API
-//     //Takes Artist Name
-//     //Gives Event Venue Name, Venue Location, Date
-
-//     makeSearch();
-//     findConcerts();
-
-//     //------------------------------------------
-
-// } else if (userCommand === "spotify-this-song") {
-//     //Node-Spotify-API
-//     //Takes Song Name
-//     //Gives Artist, Song Name, Preview Link on Spotify, Album
-//     makeSearch();
-//     findSong();
-
-//     //------------------------------------------
-
-// } else if (userCommand === "movie-this") {
-//     //OMDB API (trilogy)
-//     //Takes Movie Name
-//     //Gives Title, Year, IMDB Rating, RT Rating, Country, Language, Actors, Plot
-//     //Default "Mr. Nobody"
-
-//     makeSearch();
-//     findMovie();
-
-//     //------------------------------------------
-
-// } else if (userCommand === "do-what-it-says") {
-//     //Spotify-This-Song 
-//     //Use the text in the random.txt file though
-//     fs.readFile("random.txt", "utf8", function (error, data) {
-//         if (error) {
-//             return console.log(error);
-//         }
-
-//         var dataArr = data.split(",");
-//         console.log(dataArr);
-
-//         userCommand = dataArr[0];
-//         search = dataArr[1];
-//         console.log(userCommand);
-//         console.log(search);
-
-//     });
-
-// } else {
-//     console.log("That is not a valid command. Have a nice day!")
-// }
-// //------------------------------------------
