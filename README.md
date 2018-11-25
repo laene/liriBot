@@ -22,3 +22,33 @@ LiriBot utilizes Node.JS and a collection of other packages to run its search fu
  ![Start](/screenshots/step1.png)
 Format: ![Alt Text](url)
 
+### Search for Concerts
+
+You can search for your favorite artist's upcoming shows by typing into the terminal and using the command "concert-this" followed by the band's name. I searched for pentatonix:
+    node liri.js concert-this pentatonix
+    
+![Step 2](/screenshots/step2-concertthis.png)
+Format: ![Alt Text](url)
+
+### Search for Song Information
+
+You can search for more information about a song using the command "spotify-this-song" followed by the song title. For Example:
+    node liri.js spotify-this-song thunder
+    
+![Step 3](/screenshots/step3-spotifythis.png)
+Format: ![Alt Text](url)
+
+### Search for Movie Information
+
+You can search for information about your favorite movies using the command "movie-this" followed by the movie title. I looked up the movie 10 Things I Hate About You:
+    node liri.js movie-this 10 things i hate about you
+    
+![Step 4](/screenshots/step4-moviethis.png)
+Format: ![Alt Text](url)
+
+### Use a txt File Instead
+
+You can also tell liriBot to do the commands listed in another file using the "do-what-it-says" command. Here's an example:
+
+![Step 5](/screenshots/step5-thistext.png)
+Format: ![Alt Text](url)
